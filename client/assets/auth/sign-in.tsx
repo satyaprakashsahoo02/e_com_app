@@ -7,41 +7,6 @@ import * as React from "react";
 import { Pressable, TextInput, View, Text, ActivityIndicator, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-// Reusable Auth Input Component
-interface AuthInputProps {
-  label: string;
-  placeholder: string;
-  value: string;
-  onChangeText: (text: string) => void;
-  secureTextEntry?: boolean;
-  keyboardType?: 'default' | 'email-address' | 'number-pad';
-}
-
-function AuthInput({
-  label,
-  placeholder,
-  value,
-  onChangeText,
-  secureTextEntry = false,
-  keyboardType = 'default',
-}: AuthInputProps) {
-  return (
-    <View className="mb-4">
-      <Text className="text-primary font-medium mb-2">{label}</Text>
-      <TextInput
-        className="w-full bg-surface p-4 rounded-xl text-primary"
-        placeholder={placeholder}
-        placeholderTextColor="#999"
-        secureTextEntry={secureTextEntry}
-        keyboardType={keyboardType}
-        value={value}
-        onChangeText={onChangeText}
-        autoCapitalize="none"
-      />
-    </View>
-  );
-}
-
 export default function Page() {
     const { signIn, setActive, isLoaded } = useSignIn();
     const router = useRouter();
@@ -126,23 +91,17 @@ export default function Page() {
                         <Text className="text-secondary">Sign in to continue</Text>
                     </View>
 
-                    {/* Email Input - Using Reusable Component */}
-                    <AuthInput
-                      label="Email"
-                      placeholder="user@example.com"
-                      value={emailAddress}
-                      onChangeText={setEmailAddress}
-                      keyboardType="email-address"
-                    />
+                    {/* Email */}
+                    <View className="mb-4">
+                        <Text className="text-primary font-medium mb-2">Email</Text>
+                        <TextInput className="w-full bg-surface p-4 rounded-xl text-primary" placeholder="user@example.com" placeholderTextColor="#999" autoCapitalize="none" keyboardType="email-address" value={emailAddress} onChangeText={setEmailAddress} />
+                    </View>
 
-                    {/* Password Input - Using Reusable Component */}
-                    <AuthInput
-                      label="Password"
-                      placeholder="••••••••"
-                      value={password}
-                      onChangeText={setPassword}
-                      secureTextEntry
-                    />
+                    {/* Password */}
+                    <View className="mb-6">
+                        <Text className="text-primary font-medium mb-2">Password</Text>
+                        <TextInput className="w-full bg-surface p-4 rounded-xl text-primary" placeholder="********" placeholderTextColor="#999" secureTextEntry value={password} onChangeText={setPassword} />
+                    </View>
 
                     {/* Submit */}
                     <Pressable className={`w-full py-4 rounded-full items-center mb-10 ${loading || !emailAddress || !password ? "bg-gray-300" : "bg-primary"}`} onPress={onSignInPress} disabled={loading || !emailAddress || !password}>
@@ -165,15 +124,8 @@ export default function Page() {
                         <Text className="text-secondary text-center">Enter the code sent to your email</Text>
                     </View>
 
-                    {/* Verification Code Input - Using Reusable Component */}
                     <View className="mb-6">
-                        <AuthInput
-                          label="Verification Code"
-                          placeholder="123456"
-                          value={code}
-                          onChangeText={setCode}
-                          keyboardType="number-pad"
-                        />
+                        <TextInput className="w-full bg-surface p-4 rounded-xl text-primary text-center tracking-widest" placeholder="123456" placeholderTextColor="#999" keyboardType="number-pad" value={code} onChangeText={setCode} />
                     </View>
 
                     <Pressable className="w-full bg-primary py-4 rounded-full items-center" onPress={onVerifyPress} disabled={loading}>
